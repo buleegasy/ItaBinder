@@ -1,0 +1,51 @@
+name: ItaBinder
+options:
+  bundleIdPrefix: com.buleegasy
+targets:
+  ItaBinder:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.4"
+    sources:
+      - path: App
+      - path: Core
+      - path: Features
+      - path: Models
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.buleegasy.ItaBinder
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_PREVIEWS: YES
+        SWIFT_VERSION: 5.0
+        TARGETED_DEVICE_FAMILY: 1,2
+        SDKROOT: iphoneos
+    info:
+      path: App/Info.plist
+      properties:
+        UILaunchScreen: {}
+
+  ItaBinderTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "18.4"
+    sources:
+      - path: ItaBinderTests
+    dependencies:
+      - target: ItaBinder
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ItaBinder.app/ItaBinder"
+        SDKROOT: iphoneos
+
+schemes:
+  ItaBinder:
+    build:
+      targets:
+        ItaBinder: [run, test, archive]
+    test:
+      targets:
+        - name: ItaBinderTests
+          parallelizable: true
+    run:
+      target: ItaBinder
