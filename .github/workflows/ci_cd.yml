@@ -1,0 +1,70 @@
+name: ItaBinder CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: macos-14
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.4'
+
+      - name: Run Tests
+        run: |
+          xcodebuild test \
+            -project ItaBinder.xcodeproj \
+            -scheme ItaBinder \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+            -resultBundlePath TestResults
+
+  build-and-deploy:
+    name: Build and Upload to TestFlight
+    runs-on: macos-14
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Provisioning Profiles
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          # Import certificates and profiles (simulated steps for YAML)
+          echo "Installing certificates and profiles..."
+
+      - name: Build Archive
+        run: |
+          xcodebuild archive \
+            -project ItaBinder.xcodeproj \
+            -scheme ItaBinder \
+            -archivePath ItaBinder.xcarchive \
+            -allowProvisioningUpdates
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ItaBinder.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath build
+
+      - name: Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+        run: |
+          # Use xcrun altool or fastlane to upload
+          echo "Uploading to TestFlight..."

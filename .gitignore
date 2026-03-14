@@ -1,0 +1,85 @@
+# Xcode
+#
+# gitignore contributors: scroll down to GitHub and Tasking sections
+
+## Build results
+build/
+DerivedData/
+
+## Project settings
+xcuserdata/
+
+## Core Data
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+## Xcode 4
+xcuserdata/
+
+## Other
+*.moved-aside
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+## Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# macOS
+#
+.DS_Store
+*.swp
+*.lock
+
+# User-specific
+*.xcuserdatad
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcbkptlist
+*.xcworkspace/xcshareddata/
+
+# CocoaPods
+#
+# We recommend against committing the Pods directory to your repository.
+# However, if you'd like to do so anyway, comment out the following line.
+# Pods/
+#
+# If you are using CocoaPods with a custom Podfile, you might want to
+# include your Podfile.lock.
+# Podfile.lock
+
+# Carthage
+#
+# Carthage/Build/
+
+# AccuRev
+#
+.accurev/
+
+# Fastlane
+#
+# It is recommended to not store the screenshots in the repo since they will
+# eventually become quite large.
+# fastlane/screenshots
+# fastlane/test_output
+
+# Bundle configuration
+#
+# It is recommended to not store the bundle config in the repo since it
+# may contain secrets.
+# .bundle/
+
+# CI
+#
+# If you are using a CI server like Travis CI, CircleCI, etc., you might want to
+# include the CI configuration files.
+# .travis.yml
+# .circleci/
+# .github/workflows/ (keep this if you want actions)
