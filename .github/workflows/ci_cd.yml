@@ -18,14 +18,14 @@ jobs:
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.4'
+          xcode-version: '16.2'
 
       - name: Run Tests
         run: |
           xcodebuild test \
             -project ItaBinder.xcodeproj \
             -scheme ItaBinder \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.1' \
             -resultBundlePath TestResults
 
   build-and-deploy:

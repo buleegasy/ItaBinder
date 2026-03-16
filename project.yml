@@ -9,7 +9,7 @@ targets:
   ItaBinder:
     type: application
     platform: iOS
-    deploymentTarget: "18.4"
+    deploymentTarget: "17.0"
     sources:
       - path: App
       - path: Views
@@ -45,7 +45,7 @@ targets:
   ItaBinderTests:
     type: bundle.unit-test
     platform: iOS
-    deploymentTarget: "18.4"
+    deploymentTarget: "17.0"
     sources:
       - path: ItaBinderTests
     dependencies:

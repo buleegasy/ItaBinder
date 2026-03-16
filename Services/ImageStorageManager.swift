@@ -204,9 +204,12 @@ final class CompositingPipeline {
         if inputExtent.size != maskExtent.size {
             let scaleX = inputExtent.width / maskExtent.width
             let scaleY = inputExtent.height / maskExtent.height
-            finalMask = mask.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
-            // Ensure extent alignment
-            finalMask = finalMask.cropped(to: inputExtent)
+            
+            // Robust scaling: Move to (0,0), scale, move to target origin
+            finalMask = mask.transformed(by: CGAffineTransform(translationX: -maskExtent.origin.x, y: -maskExtent.origin.y))
+                            .transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+                            .transformed(by: CGAffineTransform(translationX: inputExtent.origin.x, y: inputExtent.origin.y))
+                            .cropped(to: inputExtent)
         }
         
         // 2. Optional anti-aliasing feather
@@ -220,9 +223,6 @@ final class CompositingPipeline {
         }
         
         // 2. Blend with transparent background
-        let transparentBG = CIImage.black.applyingFilter("CIColorControls", parameters: ["inputSaturation": 0, "inputBrightness": 0, "inputContrast": 0]).cropped(to: inputExtent)
-        // Alternative: CIImage(color: .clear).cropped(to: inputExtent) is often not working well in some CI versions, so we use a black image with alpha 0 or just clear
-        
         let blend = CIFilter.blendWithMask()
         blend.inputImage = originalImage
         blend.maskImage = finalMask
@@ -251,14 +251,20 @@ final class CompositingPipeline {
         if aiMask.extent.size != targetExtent.size {
             let sX = targetExtent.width / aiMask.extent.width
             let sY = targetExtent.height / aiMask.extent.height
-            scaledAI = aiMask.transformed(by: CGAffineTransform(scaleX: sX, y: sY)).cropped(to: targetExtent)
+            scaledAI = aiMask.transformed(by: CGAffineTransform(translationX: -aiMask.extent.origin.x, y: -aiMask.extent.origin.y))
+                             .transformed(by: CGAffineTransform(scaleX: sX, y: sY))
+                             .transformed(by: CGAffineTransform(translationX: targetExtent.origin.x, y: targetExtent.origin.y))
+                             .cropped(to: targetExtent)
         }
         
         var scaledFlood = floodMask
         if floodMask.extent.size != targetExtent.size {
             let sX = targetExtent.width / floodMask.extent.width
             let sY = targetExtent.height / floodMask.extent.height
-            scaledFlood = floodMask.transformed(by: CGAffineTransform(scaleX: sX, y: sY)).cropped(to: targetExtent)
+            scaledFlood = floodMask.transformed(by: CGAffineTransform(translationX: -floodMask.extent.origin.x, y: -floodMask.extent.origin.y))
+                                   .transformed(by: CGAffineTransform(scaleX: sX, y: sY))
+                                   .transformed(by: CGAffineTransform(translationX: targetExtent.origin.x, y: targetExtent.origin.y))
+                                   .cropped(to: targetExtent)
         }
         
         // 2. Invert flood mask (blemish areas become black)
