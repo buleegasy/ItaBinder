@@ -18,7 +18,15 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSCameraUsageDescription</key>
+	<string>需要访问您的相机来拍摄谷子照片。</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要访问您的相册来保存导出的海报。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要访问您的相册来导入谷子照片。</string>
 	<key>UILaunchScreen</key>
 	<dict/>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 </dict>
 </plist>

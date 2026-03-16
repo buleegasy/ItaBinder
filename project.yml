@@ -1,6 +1,10 @@
 name: ItaBinder
 options:
   bundleIdPrefix: com.buleegasy
+packages:
+  OpenCVPackage:
+    url: https://github.com/yeatse/OpenCV-SPM
+    from: 4.10.0
 targets:
   ItaBinder:
     type: application
@@ -8,21 +12,35 @@ targets:
     deploymentTarget: "18.4"
     sources:
       - path: App
-      - path: Core
+      - path: Views
+      - path: Services
+      - path: Utils
       - path: Features
       - path: Models
+    dependencies:
+      - package: OpenCVPackage
+        product: OpenCV
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.buleegasy.ItaBinder
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_PREVIEWS: YES
+        CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER: NO
+        CLANG_WARN_DOCUMENTATION_COMMENTS: NO
         SWIFT_VERSION: 5.0
         TARGETED_DEVICE_FAMILY: 1,2
         SDKROOT: iphoneos
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "" # TODO: Add your Team ID here or select in Xcode
+        SWIFT_OBJC_BRIDGING_HEADER: App/ItaBinder-Bridging-Header.h
     info:
       path: App/Info.plist
       properties:
         UILaunchScreen: {}
+        UIRequiresFullScreen: YES
+        NSCameraUsageDescription: "需要访问您的相机来拍摄谷子照片。"
+        NSPhotoLibraryUsageDescription: "需要访问您的相册来导入谷子照片。"
+        NSPhotoLibraryAddUsageDescription: "需要访问您的相册来保存导出的海报。"
 
   ItaBinderTests:
     type: bundle.unit-test
@@ -37,6 +55,7 @@ targets:
         BUNDLE_LOADER: "$(TEST_HOST)"
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ItaBinder.app/ItaBinder"
         SDKROOT: iphoneos
+        GENERATE_INFOPLIST_FILE: YES
 
 schemes:
   ItaBinder:

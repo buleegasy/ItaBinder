@@ -11,11 +11,10 @@ struct ItaBinderApp: App {
             AssetMetadata.self
         ])
         
-        // CloudKit configuration
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitContainerIdentifier: "iCloud.com.example.ItaBinder" // Replace with real ID
+            cloudKitDatabase: .automatic // Replace with .none if CloudKit is not needed
         )
 
         do {
@@ -28,7 +27,7 @@ struct ItaBinderApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CollectionsView()
+            MainTabView()
         }
         .modelContainer(sharedModelContainer)
     }

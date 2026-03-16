@@ -1,0 +1,54 @@
+# itabinder (中文名：养谷) App System Design Context
+
+Project: itabinder (中文名：养谷)
+App Type: Anime Merchandise (Guzi/谷子) Collector & Organization App.
+Primary Vibe: Clean, restrained, "digital binder" aesthetic. The merch images are the ONLY hero elements.
+
+## 🤖 ABSOLUTE RULES FOR AI (NEVER VIOLATE)
+1. **Language**: All user-facing text, buttons, and placeholders MUST BE IN CHINESE (Simplified).
+2. **Styling**: ALWAYS use Tailwind CSS utility classes. DO NOT write custom CSS unless strictly necessary for complex animations.
+3. **Layout**: Implement an 8pt grid system. All padding/margin values must be multiples of 4 or 8 (e.g., p-2, m-4, gap-6).
+4. **Color**: NEVER invent colors. ONLY use the exact HEX codes or Tailwind equivalents defined in Section 2.
+5. **Backgrounds**: Utility pages MUST have a solid neutral background (bg-gray-50 or bg-white). NO decorative patterns or gradients behind the merch cards.
+
+## 🎨 DESIGN TOKENS & TAILWIND MAPPING
+### Colors
+- **Primary Brand (itabinder Purple)**: #8B5CF6 (Tailwind: purple-500). Use for primary buttons, active tabs, and highlights.
+- **Primary Hover**: #7C3AED (Tailwind: purple-600).
+- **Surface/Card**: #FFFFFF (Tailwind: white).
+- **App Background**: #F9FAFB (Tailwind: gray-50).
+- **Border/Divider**: #E5E7EB (Tailwind: gray-200).
+- **Text Primary**: #111827 (Tailwind: gray-900).
+- **Text Secondary**: #4B5563 (Tailwind: gray-600).
+
+### Typography (Chinese Optimized)
+- **Line Height**: ALWAYS set line-height to relaxed for Chinese readability (Tailwind: leading-relaxed or leading-snug for titles).
+- **Font Weights**:
+  - Page Titles: `text-2xl font-semibold text-gray-900`
+  - Card Titles: `text-sm font-normal text-gray-900`
+  - Metadata/Tags: `text-xs font-medium text-gray-600`
+
+### Shadows & Borders (The "Sleeve" Effect)
+- **Cards**: `shadow-sm border border-gray-200 rounded-xl`
+- **Floating Elements (Bottom Nav, Modals)**: `shadow-lg border border-gray-100 rounded-t-2xl`
+
+## 🧩 COMPONENT VIBE DEFINITIONS
+- **Component: [MerchCard]**
+  - Vibe: A physical anime badge or acrylic stand protected in a clear plastic sleeve resting on a white table.
+  - Specs: `bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden`.
+  - Image: MUST use `aspect-square` (for badges) or `aspect-[3/4]` (for stands). Image must have `object-cover`.
+  - Text Area: Only show the merch title (truncate to 1 line using `truncate`) and a small quantity badge at the top right (e.g., x2).
+- **Component: [PillTag]**
+  - Vibe: Small, clickable chips for filtering IPs or Characters.
+  - Specs: `px-3 py-1 rounded-full text-xs font-medium bg-purple-50 text-purple-600`.
+- **Component: [ActionBottomSheet]**
+  - Vibe: A drawer that slides up from the bottom so the user doesn't lose context of their collection.
+  - Specs: `fixed bottom-0 w-full bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] p-6 z-50`.
+
+## 📚 DICTIONARY (MANDATORY CHINESE UX WRITING)
+- "Add" / "Create" -> "接回家" (Bring Home)
+- "Home" / "Dashboard" -> "我的展柜" (My Showcase)
+- "Categories" -> "谷子分类" (Merch Categories)
+- "Stats" / "Analytics" -> "厨力值" (Devotion Level)
+- "Empty State Text" -> "展柜空空如也，快去把心爱的谷子接回家吧~" (Showcase is empty...)
+- "Share" -> "生成痛板海报" (Generate Ita-board Poster)

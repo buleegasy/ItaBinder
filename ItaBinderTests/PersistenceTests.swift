@@ -11,7 +11,7 @@ final class PersistenceTests: XCTestCase {
         let context = container.mainContext
         
         // Create Item
-        let item = Item(title: "Test Badge", rarity: "Super Rare")
+        let item = Item(title: "Test Badge")
         context.insert(item)
         
         // Create Collection
