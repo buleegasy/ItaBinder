@@ -4,6 +4,7 @@
 
 ## Build results
 build/
+build*.log
 DerivedData/
 
 ## Project settings
